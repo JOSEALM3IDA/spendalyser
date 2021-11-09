@@ -3,6 +3,7 @@ package pt.josealm3ida.spendalyzer;
 import pt.josealm3ida.spendalyzer.database.DatabaseController;
 import pt.josealm3ida.spendalyzer.database.Expense;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -18,18 +19,23 @@ public class Main {
         DatabaseController dbController = null;
         try {
             dbController = DatabaseController.getInstance();
-
-            Instant instant = LocalDateTime.parse("09/11/2021 03:33", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")).atZone(ZoneId.systemDefault()).toInstant();
-            dbController.insertExpense(new Expense("Type1", 69.69, Timestamp.from(instant), "Berliner Tor 3", "description 1"));
-
-            instant = LocalDateTime.parse("10/11/2021 13:22", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")).atZone(ZoneId.systemDefault()).toInstant();
-            dbController.insertExpense(new Expense("Type2", 69.69, Timestamp.from(instant), "Quinta da Nora", "description 2"));
-
+            dbController.insertExpenseFile(Constants.EXAMPLE_JSON_LOC);
             List<Expense> expenses = dbController.getAllExpenses();
-            for (Expense expense : expenses) System.out.println(expense.toString());
-        } catch(SQLException e) {
+
+            double totalValue = 0;
+            String firstExpenseDate = null;
+            for (Expense expense : expenses) {
+                if (firstExpenseDate == null) firstExpenseDate = expense.getTimestampAsDate();
+                totalValue += expense.value();
+                System.out.println(expense);
+            }
+
+            if (firstExpenseDate != null)
+                System.out.println("\nTotal Money Spent (since " + firstExpenseDate + "): " + Utils.round(totalValue, 2) + "€");
+        } catch(SQLException | IOException e) {
             // if the error message is "out of memory", it probably means no database file is found
             System.err.println(e.getMessage());
+            e.printStackTrace();
         } finally {
             try {
                 DatabaseController.closeConnection();

@@ -17,6 +17,10 @@ public record Expense(String type, double value, Timestamp timestamp, String loc
         return new Expense(type, value, timestamp, location, description);
     }
 
+    public String getTimestampAsDate() {
+        return timestamp.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+    }
+
     @Override
     public String toString() {
         return "Type: " + type() + "\tValue: " + value + "\tTimestamp: " + timestamp.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")) +

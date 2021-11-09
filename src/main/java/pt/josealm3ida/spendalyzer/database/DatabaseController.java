@@ -1,5 +1,12 @@
 package pt.josealm3ida.spendalyzer.database;
 
+import com.google.gson.Gson;
+import pt.josealm3ida.spendalyzer.json.JsonExpense;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +44,20 @@ public class DatabaseController {
     }
 
     public void insertExpense(Expense expense) throws SQLException {
-        getStatement().executeUpdate("INSERT INTO expense values(NULL, " +
-                "'" + expense.type() + "', " + expense.value() + ", '" + expense.timestamp().toInstant().toEpochMilli() + "', " +
-                "'" + expense.location() + "', '" + expense.description() + "')");
+        String query = "INSERT INTO " + TABLE_NAME_EXPENSE + " VALUES(NULL, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = getPreparedStatement(query);
+        //String query = "INSERT INTO " + TABLE_NAME_EXPENSE + " VALUES(NULL, " +
+        //        "\"" + expense.type() + "\", " + expense.value() + ", '" + expense.timestamp().toInstant().toEpochMilli() + "', " +
+        //        "'" + expense.location() + "', '" + expense.description() + "')";
+
+        //preparedStatement.setString(1, TABLE_NAME_EXPENSE);
+        preparedStatement.setString(1, expense.type());
+        preparedStatement.setDouble(2, expense.value());
+        preparedStatement.setTimestamp(3, expense.timestamp());
+        preparedStatement.setString(4, expense.location());
+        preparedStatement.setString(5, expense.description());
+
+        preparedStatement.execute();
     }
 
     public void deleteTable(String tableName) throws SQLException {
@@ -60,5 +78,17 @@ public class DatabaseController {
         Statement statement = connection.createStatement();
         statement.setQueryTimeout(QUERY_TIMEOUT_SECONDS);
         return statement;
+    }
+
+    private PreparedStatement getPreparedStatement(String query) throws SQLException {
+        return connection.prepareStatement(query);
+    }
+
+    public void insertExpenseFile(String jsonLoc) throws IOException, SQLException {
+        String fileContents = new String(Files.readAllBytes(Paths.get(jsonLoc)));
+        JsonExpense[] expenses = new Gson().fromJson(fileContents, JsonExpense[].class);
+        for (JsonExpense jsonExpense : expenses) {
+            insertExpense(jsonExpense.toExpense());
+        }
     }
 }
