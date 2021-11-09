@@ -9,7 +9,7 @@ import static pt.josealm3ida.spendalyser.Constants.*;
 public class DatabaseController {
 
     private static DatabaseController instance = null;
-    private static Connection connection;
+    private static Connection connection = null;
 
     public static DatabaseController getInstance() throws SQLException, ClassNotFoundException {
         if (instance == null) {
@@ -24,7 +24,7 @@ public class DatabaseController {
 
     public static void closeConnection() throws SQLException {
         instance = null;
-        connection.close();
+        if (connection != null) connection.close();
     }
 
     private DatabaseController() {}

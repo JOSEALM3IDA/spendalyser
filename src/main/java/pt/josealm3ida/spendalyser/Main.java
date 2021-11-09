@@ -32,7 +32,7 @@ public class Main {
             System.err.println(e.getMessage());
         } finally {
             try {
-                if (dbController != null) DatabaseController.closeConnection();
+                DatabaseController.closeConnection();
             } catch(SQLException e) {
                 // connection close failed.
                 System.err.println(e);
