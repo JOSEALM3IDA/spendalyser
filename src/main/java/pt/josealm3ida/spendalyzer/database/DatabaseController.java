@@ -1,10 +1,10 @@
-package pt.josealm3ida.spendalyser.database;
+package pt.josealm3ida.spendalyzer.database;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static pt.josealm3ida.spendalyser.Constants.*;
+import static pt.josealm3ida.spendalyzer.Constants.*;
 
 public class DatabaseController {
 

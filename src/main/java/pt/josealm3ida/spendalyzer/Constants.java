@@ -1,4 +1,4 @@
-package pt.josealm3ida.spendalyser;
+package pt.josealm3ida.spendalyzer;
 
 public class Constants {
     public static String EXPENSES_DB = "expenses.db";

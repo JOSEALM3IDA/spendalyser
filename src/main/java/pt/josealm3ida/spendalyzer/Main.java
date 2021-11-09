@@ -1,7 +1,7 @@
-package pt.josealm3ida.spendalyser;
+package pt.josealm3ida.spendalyzer;
 
-import pt.josealm3ida.spendalyser.database.DatabaseController;
-import pt.josealm3ida.spendalyser.database.Expense;
+import pt.josealm3ida.spendalyzer.database.DatabaseController;
+import pt.josealm3ida.spendalyzer.database.Expense;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;

@@ -1,4 +1,4 @@
-package pt.josealm3ida.spendalyser.database;
+package pt.josealm3ida.spendalyzer.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
