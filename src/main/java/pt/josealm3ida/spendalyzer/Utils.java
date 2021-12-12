@@ -13,4 +13,5 @@ public class Utils {
         return bd.doubleValue();
     }
 
+    private Utils() {}
 }

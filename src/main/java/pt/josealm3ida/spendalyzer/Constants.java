@@ -1,9 +1,7 @@
 package pt.josealm3ida.spendalyzer;
 
 public class Constants {
-    public static String EXPENSES_DB = "expenses.db";
-    public static String TABLE_NAME_EXPENSE = "expense";
-    public static int QUERY_TIMEOUT_SECONDS = 10;
+    public static final String JSON_LOC = "./json/expenses.json";
 
-    public static final String EXAMPLE_JSON_LOC = "./json/example.json";
+    private Constants() {}
 }

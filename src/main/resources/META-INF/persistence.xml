@@ -1,0 +1,19 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+    <persistence-unit name="expense_pu">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>pt.josealm3ida.spendalyzer.database.Expense</class>
+
+        <properties>
+            <property name="dialect" value="org.sqlite.hibernate.dialect.SQLiteDialect" />
+            <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:spendalyzer.db" />
+            <property name="javax.persistence.jdbc.user" value="" />
+            <property name="javax.persistence.jdbc.password" value="" />
+            <property name="hibernate.show_sql" value="false" />
+            <property name="format_sql" value="true" />
+            <property name="hibernate.connection.charSet" value="UTF-8" />
+            <property name="hibernate.hbm2ddl.auto" value="create" /> <!-- Set to "create" to not delete on app close. Remove property to not even create and just use existing -->
+        </properties>
+    </persistence-unit>
+</persistence>
