@@ -20,18 +20,35 @@ public class Main {
             return;
         }
 
-        List<Expense> expenses = expenseRepository.findAll();
+        List<Expense> allExpenses = expenseRepository.findAll();
+        List<Expense> groceryExpenses = expenseRepository.findByType("Groceries");
+        List<Expense> rentExpenses = expenseRepository.findByType("Rent");
+        List<Expense> tuitionExpenses = expenseRepository.findByType("Tuition");
+        List<Expense> techExpenses = expenseRepository.findByType("Tech");
+        List<Expense> transportExpenses = expenseRepository.findByType("Transport");
+        List<Expense> clothesExpenses = expenseRepository.findByType("Clothes");
+        List<Expense> dinnerExpenses = expenseRepository.findByType("Dinner");
+        List<Expense> lunchExpenses = expenseRepository.findByType("Lunch");
+        List<Expense> snackExpenses = expenseRepository.findByType("Snack");
+
         expenseRepository.close();
 
-        double totalValue = 0;
-        String firstExpenseDate = null;
-        for (Expense expense : expenses) {
-            if (firstExpenseDate == null) firstExpenseDate = expense.getTimestampAsDate();
-            totalValue += expense.getValue();
-            System.out.println(expense);
-        }
+        allExpenses.stream().forEach(e -> System.out.println(e));
 
-        if (firstExpenseDate != null)
-            System.out.println("\nTotal Money Spent (since " + firstExpenseDate + "): " + Utils.round(totalValue, 2) + "€");
+        double totalValue = allExpenses.stream().mapToDouble(Expense::getValue).sum();
+
+        System.out.println("\nTotal Money Spent (since " + allExpenses.get(0).getTimestampAsDate() + " until " + allExpenses.get(allExpenses.size() - 1).getTimestampAsDate() + "): " + Utils.round(totalValue, 2) + "€");
+
+        System.out.println("Groceries: " + groceryExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Rent: " + rentExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Tuition: " + tuitionExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Tech: " + techExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Transport: " + transportExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Clothes: " + clothesExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Dinner: " + dinnerExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Lunch: " + lunchExpenses.stream().mapToDouble(Expense::getValue).sum());
+        System.out.println("Snack: " + snackExpenses.stream().mapToDouble(Expense::getValue).sum());
+
+
     }
 }

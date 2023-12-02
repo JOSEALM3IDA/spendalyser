@@ -8,10 +8,12 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "expense")
 @NamedQuery(name = Expense.QUERY_FIND_ALL, query = "SELECT s FROM Expense s ORDER BY " + Expense.PARAM_TIMESTAMP)
 @NamedQuery(name = Expense.QUERY_FIND_BY_ID, query = "SELECT s FROM Expense s WHERE s.id = :id")
+@NamedQuery(name = Expense.QUERY_FIND_BY_TYPE, query = "SELECT s FROM Expense s WHERE s.type = :type")
 public class Expense {
 
     public static final String QUERY_FIND_ALL = "Expense.findAll";
     public static final String QUERY_FIND_BY_ID = "Expense.findById";
+    public static final String QUERY_FIND_BY_TYPE = "Expense.findByType";
 
     public static final String PARAM_ID = "id";
     public static final String PARAM_TYPE = "type";
